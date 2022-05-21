@@ -1,0 +1,14 @@
+# pycache
+__pycache__/
+
+# database/pycache
+database/__pycache__/
+
+# models/pycache
+models/__pycache__/
+
+# routes/pycache
+routes/__pycache__/
+
+# .env
+.env
