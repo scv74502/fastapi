@@ -50,20 +50,40 @@ def delete_project(project: dict):
 
 def update_project(project: dict):
     try:
+        UpdateExpression = "SET "
+        ExpressionAttributeValues = {}
+
+        if project["manager_id"] is not None:
+            UpdateExpression += "manager_id = :manager_id,"
+            ExpressionAttributeValues[":manager_id"] = project["manager_id"]
+
+        if project["member_id"] is not None:
+            UpdateExpression += "member_id = :member_id,"
+            ExpressionAttributeValues[":member_id"] = project["member_id"]
+
+        if project["tech_stack"] is not None:
+            UpdateExpression += "tech_stack = :tech_stack,"
+            ExpressionAttributeValues[":tech_stack"] = project["tech_stack"]
+
+        if project["required_position"] is not None:
+            UpdateExpression += "required_position = :required_position,"
+            ExpressionAttributeValues[":required_position"] = project["required_position"]
+
+        if project["tech_stack"] is not None:
+            UpdateExpression += "tech_stack = :tech_stack,"
+            ExpressionAttributeValues[":tech_stack"] = project["tech_stack"]
+
+        UpdateExpression = UpdateExpression.rstrip(",")
+
         response = table.update_item(
             Key={
                 "project_id": project["project_id"]
             },
-            UpdateExpression="SET manager_id = :manager_id, member_id = :member_id, required_position = :required_position, requrired_person = :requrired_person, tech_stack = :tech_stack",
-            ExpressionAttributeValues={
-                ":manager_id": project["manager_id"],
-                ":member_id": project["member_id"],
-                ":required_position": project["required_position"],
-                ":requrired_person": project["requrired_person"],
-                ":tech_stack": project["tech_stack"]
-            }
+            UpdateExpression = UpdateExpression,
+            ExpressionAttributeValues = ExpressionAttributeValues
         )
         return response
+
     except ClientError as e:
         print(e)
         return JSONResponse(content=e.response["Error"], status_code=500)
