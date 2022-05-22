@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 from uuid import uuid4
 
 
@@ -13,5 +14,5 @@ class Pos_score(BaseModel):
 class User(BaseModel):
     user_id: str =  Field(default_factory=generate_userID)
     position_score: list
-    previous_project: set
-    tech_stack: set
+    previous_project: Optional[set]
+    tech_stack: Optional[set]

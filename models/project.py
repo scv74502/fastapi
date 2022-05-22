@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 from uuid import uuid4
 
 
@@ -12,9 +13,9 @@ class ProjectPosition(BaseModel):
 
 
 class Project(BaseModel):
-    project_id: str = Field(default_factory=generate_projectID)
+    project_id: str = Field()
     manager_id: str
-    member_id: set
-    required_position: list[ProjectPosition]
+    member_id: Optional[set]
+    required_position: list
     requrired_person: int
-    tech_stack: set
+    tech_stack: Optional[set]
