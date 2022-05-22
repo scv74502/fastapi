@@ -1,12 +1,12 @@
-.env
+*.env
 
 /__pycache__
 
-/routes/pycache/
+/routes/pycache
 
-/database/pycache/
+/database/pycache
 
-/models/pycache/
+/models/pycache
 
 
 
