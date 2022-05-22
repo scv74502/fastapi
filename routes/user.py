@@ -15,7 +15,7 @@ def create(user: User):
 # GET USER BY ID
 
 
-@routes_user.get("/get/{id}")
+@routes_user.get("/get/id")
 def get_by_id(user_id: str):
     return get_user(user_id)
 

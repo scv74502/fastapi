@@ -12,6 +12,6 @@ class Pos_score(BaseModel):
 
 class User(BaseModel):
     user_id: str =  Field(default_factory=generate_userID)
-    position_score: list[Pos_score]
+    position_score: list
     previous_project: set
     tech_stack: set
