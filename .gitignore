@@ -1,0 +1,12 @@
+.env
+
+/__pycache__
+
+/routes/pycache/
+
+/database/pycache/
+
+/models/pycache/
+
+
+
