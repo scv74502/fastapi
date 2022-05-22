@@ -7,139 +7,46 @@ dynamodb = resource("dynamodb",
                     region_name=getenv("REGION_NAME"))
 
 
-# tables = [
-    # {
-        # "TableName": "users",
-        # "KeySchema": [
-            # {
-                # 'AttributeName': 'UserID',
-                # 'KeyType': 'HASH'
-            # },
-        # ],
-        # "EXProject": [
-            # {
-                # 'AttributeName': '',
-                # 'AttributeType': 'SS'
-            # },
-            # {
-                # 'AttributeName': 'created_at',
-                # 'AttributeType': 'S'
-            # }
-        # ],
-    # },
-# ]
-
-# create user_info tables
-user_info = [
+user_tables = [
     {
         "TableName": "user_info",
         "KeySchema": [
             {
                 'AttributeName': 'user_id',
                 'KeyType': 'HASH'
-            },
-            {
-                'AttributeName': 'created_at',
-                'KeyType': 'RANGE'
-
             }
-            # {
-                # 'AttributeName': 'position_score',
-                # 'KeyType': 'RANGE'
-            # },
-            # {
-                # 'AttributeName': 'previous_project',
-                # 'KeyType': 'RANGE'
-            # },
-            # {
-                # 'AttributeName': 'tech_stack',
-                # 'KeyType': 'RANGE'
-            # },
         ],
         "AttributeDefinitions": [
             {
                 'AttributeName': 'user_id',
                 'AttributeType': 'S'
-            },
-            {
-                'AttributeName': 'created_at',
-                'AttributeType': 'S'
             }
-
-            # {
-                # 'AttributeName': 'position_score',
-                # 'AttributeType': 'S'
-            # },
         ],
     },
 ]
 
-
-project_info = [
+project_tables = [
     {
         "TableName": "project_info",
         "KeySchema": [
             {
                 'AttributeName': 'project_id',
                 'KeyType': 'HASH'
-            },
-            {
-                'AttributeName': 'manager_id',
-                'KeyType': 'RANGE'
-            },
-            # {
-                # 'AttributeName': 'member_id',
-                # 'KeyType': 'RANGE'
-            # },
-            # {
-                # 'AttributeName': 'required_position',
-                # 'KeyType': 'RANGE'
-            # },
-            # {
-                # 'AttributeName': 'required_person',
-                # 'KeyType': 'RANGE'
-            # },
-#
-            # {
-                # 'AttributeName': 'tech_stack',
-                # 'KeyType': 'RANGE'
-            # },
-
+            }
         ],
         "AttributeDefinitions": [
             {
                 'AttributeName': 'project_id',
                 'AttributeType': 'S'
-            },
-            {
-                'AttributeName': 'manager_id',
-                'AttributeType': 'S'
-            },
-            # {
-                # 'AttributeName': 'member_id',
-                # 'AttributeType': 'S'
-            # },
-            # {
-                # 'AttributeName': 'required_position',
-                # 'AttributeType': 'S'
-            # },
-            # {
-                # 'AttributeName': 'required_person',
-                # 'AttributeType': 'N'
-            # },
-            # {
-                # 'AttributeName': 'tech_stack',
-                # 'AttributeType': 'S'
-            # }
-
+            }
         ],
     },
 ]
 
 
-def create_user_table():
+def create_tables_user():
     try:
-        for table in user_info:
+        for table in user_tables:
             dynamodb.create_table(
                 TableName=table["TableName"],
                 KeySchema=table["KeySchema"],
@@ -150,9 +57,9 @@ def create_user_table():
         print(e)
 
 
-def create_project_table():
+def create_tables_project():
     try:
-        for table in project_info:
+        for table in project_tables:
             dynamodb.create_table(
                 TableName=table["TableName"],
                 KeySchema=table["KeySchema"],
