@@ -89,7 +89,7 @@ def update_project(project: dict):
 
 def update_projmem(project_id: str):
     try:
-        return response
+        return 0
     except ClientError as e:
         return JSONResponse(content=e.response["Error"], status_code=500)
 

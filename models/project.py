@@ -17,5 +17,5 @@ class Project(BaseModel):
     manager_id: str
     member_id: Optional[set]
     required_position: list
-    requrired_person: int
+    required_person: int
     tech_stack: Optional[set]
