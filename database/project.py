@@ -1,4 +1,4 @@
-from .user import update_user
+from .user import get_user, update_user
 from .db import dynamodb
 from botocore.exceptions import ClientError
 from fastapi.responses import JSONResponse
@@ -61,9 +61,9 @@ def update_project(project: dict):
             UpdateExpression += "member_id = :member_id,"
             ExpressionAttributeValues[":member_id"] = project["member_id"]
 
-        if project["tech_stack"] is not None:
-            UpdateExpression += "tech_stack = :tech_stack,"
-            ExpressionAttributeValues[":tech_stack"] = project["tech_stack"]
+        if project["required_person"] is not None:
+            UpdateExpression += "required_person = :required_person,"
+            ExpressionAttributeValues[":required_person"] = project["required_person"]
 
         if project["required_position"] is not None:
             UpdateExpression += "required_position = :required_position,"
@@ -85,11 +85,12 @@ def update_project(project: dict):
         return response
 
     except ClientError as e:
+        print(e)
         return JSONResponse(content=e.response["Error"], status_code=500)
 
-def update_projmem(project_id: str):
-    try:
-        return 0
-    except ClientError as e:
-        return JSONResponse(content=e.response["Error"], status_code=500)
+# def update_projmem(project_id: str, user_id: list):
+    # try:
+        # return 0
+    # except ClientError as e:
+        # return JSONResponse(content=e.response["Error"], status_code=500)
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from models.project import Project
-from database.project import create_project, get_project, get_projects, delete_project, update_project, update_projmem
+from database.project import create_project, get_project, get_projects, delete_project, update_project #, update_projmem
 
 
 routes_project = APIRouter()
