@@ -14,7 +14,7 @@ def create(project: Project):
 
 
 
-@routes_project.get("/get/{id}")
+@routes_project.get("/get/id")
 def get_by_id(project_id: str):
     return get_project(project_id)
 
