@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from models.user import User
-from database.user import create_user, get_user, get_users, delete_user, update_user
+from database.user import create_user, get_user, get_users, delete_user, update_user, get_user_proj
 
 
 routes_user = APIRouter()
@@ -34,3 +34,8 @@ def delete(user: User):
 @routes_user.patch("/update")
 def update(user: User):
     return update_user(user.dict())
+
+@routes_user.get("/recommend")
+def user_match(uid:str, num:int):
+    return get_user_proj(uid, num)
+

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from models.project import Project
-from database.project import create_project, get_project, get_projects, delete_project, update_project #, update_projmem
+from database.project import create_project, get_project, get_projects, delete_project, update_project, get_proj_user
 
 
 routes_project = APIRouter()
@@ -34,8 +34,8 @@ def delete(project: Project):
 def update(project: Project):
     return update_project(project.dict())
 
-# UPDATE PROJECT MENBER
-@routes_project.patch("/update")
-def update_projmem(project: Project):
-    return update_project(project.dict())
+@routes_project.get("/recommend")
+def pj_match(pid:str, num:int):
+    return get_proj_user(pid, num)
+
 

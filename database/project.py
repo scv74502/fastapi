@@ -1,8 +1,10 @@
-from .user import get_user, update_user
 from .db import dynamodb
+from .tech import get_user_tech
 from botocore.exceptions import ClientError
 from fastapi.responses import JSONResponse
 from boto3.dynamodb.conditions import Key
+from .jacard import jacard_sim
+
 
 table = dynamodb.Table("project_info")
 
@@ -88,9 +90,52 @@ def update_project(project: dict):
         print(e)
         return JSONResponse(content=e.response["Error"], status_code=500)
 
-# def update_projmem(project_id: str, user_id: list):
-    # try:
-        # return 0
-    # except ClientError as e:
-        # return JSONResponse(content=e.response["Error"], status_code=500)
+
+# get users id, tech_stack
+def get_proj_tech():
+        try:
+            response = table.scan(
+                AttributesToGet=["project_id", "tech_stack"]
+            )
+            response['Items'].sort(key=lambda x:int(x["project_id"]))
+            projects = response['Items']
+
+            return projects
+
+        except ClientError as e:
+            return JSONResponse(content=e.response["Error"], status_code=500)
+
+
+# input project_id, get matched user_id
+def get_proj_user(pid: str, num: int):
+    try:
+        global users, projects
+
+        response = table.scan(
+            AttributesToGet=["project_id", "tech_stack"]
+        )
+        response['Items'].sort(key=lambda x:int(x["project_id"]))
+
+        users = get_user_tech()
+        projects = response['Items']
+
+        users = [user for user in users if "tech_stack" in user]
+        projects = [project for project in projects if "tech_stack" in project]
+
+
+        proj_jsim = dict()
+        for proj in projects:
+            proj_jsim[proj['project_id']] = {user['user_id']:jacard_sim(proj['tech_stack'], user['tech_stack']) for user in users}
+            proj_jsim[proj['project_id']] = dict(sorted(proj_jsim[proj['project_id']].items(), key=lambda x:x[1], reverse=True))
+        result = list(proj_jsim[pid].items())
+        result = dict([ele for ele in result if ele[1] != 0])
+        if len(list(result.keys())) > num:
+            return list(result.keys())[:num]
+        else:
+            return list(result.keys())[:num]
+
+
+
+    except ClientError as e:
+        return JSONResponse(content=e.response["Error"], status_code=500)
 

@@ -1,8 +1,10 @@
 from .db import dynamodb
+from .tech import get_proj_tech
 from typing import Optional
 from botocore.exceptions import ClientError
 from fastapi.responses import JSONResponse
 from boto3.dynamodb.conditions import Key
+from .jacard import jacard_sim
 
 table = dynamodb.Table("user_info")
 
@@ -20,8 +22,7 @@ def get_user(user_id: str):
         response = table.query(
             KeyConditionExpression=Key("user_id").eq(user_id)
         )
-        response["Items"][0]['previous_project'].add("test")
-        print(response["Items"][0]['previous_project'])
+        print(response)
         return response["Items"]
     except ClientError as e:
         return JSONResponse(content=e.response["Error"], status_code=500)
@@ -83,5 +84,39 @@ def update_user(user: dict):
             ExpressionAttributeValues = ExpressionAttributeValues
         )
         return response
+    except ClientError as e:
+        return JSONResponse(content=e.response["Error"], status_code=500)
+
+
+# input user_id, get matched project_id
+def get_user_proj(uid: str, num: int):
+    try:
+        global users, projects
+
+        response = table.scan(
+            AttributesToGet=["user_id", "tech_stack"]
+        )
+        response['Items'].sort(key=lambda x:int(x["user_id"]))
+
+        users = response['Items']
+        projects = get_proj_tech()
+
+        users = [user for user in users if "tech_stack" in user]
+        projects = [project for project in projects if "tech_stack" in project]
+
+        user_jsim = dict()
+        for user in users:
+            user_jsim[user['user_id']] = {proj['project_id']:jacard_sim(user['tech_stack'], proj['tech_stack']) for proj in projects}
+            user_jsim[user['user_id']] = dict(sorted(user_jsim[user['user_id']].items(), key=lambda x:x[1], reverse=True))
+
+        result = list(user_jsim[uid].items())
+        result = dict([ele for ele in result if ele[1] != 0])
+        if len(list(result.keys())) > num:
+            return list(result.keys())[:num]
+        else:
+            return list(user_jsim[uid].keys())
+
+
+
     except ClientError as e:
         return JSONResponse(content=e.response["Error"], status_code=500)
