@@ -5,37 +5,32 @@ from database.user import create_user, get_user, get_users, delete_user, update_
 
 routes_user = APIRouter()
 
+
 # CREATE USER
+# @routes_user.put("/create", response_model=User)
+# def create(user: User):
+    # return create_user(user.dict())
 
-
-@routes_user.put("/create", response_model=User)
-def create(user: User):
-    return create_user(user.dict())
 
 # GET USER BY ID
+@routes_user.get("")
+def get_by_id(id: str):
+    return get_user(id)
 
-
-@routes_user.get("/get/id")
-def get_by_id(user_id: str):
-    return get_user(user_id)
 
 # GET ALL USERS
-
-
 @routes_user.get("/all")
 def get_all():
     return get_users()
 
+
 # DELETE USER
-
-
 @routes_user.delete("/delete")
-def create(user: User):
+def delete(user: User):
     return delete_user(user.dict())
 
+
 # UPDATE USER
-
-
 @routes_user.patch("/update")
-def create(user: User):
+def update(user: User):
     return update_user(user.dict())

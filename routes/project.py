@@ -8,15 +8,15 @@ routes_project = APIRouter()
 # CREATE USER
 
 
-@routes_project.put("/create", response_model=Project)
-def create(project: Project):
-    return create_project(project.dict())
+# @routes_project.put("/create", response_model=Project)
+# def create(project: Project):
+    # return create_project(project.dict())
 
 
 
-@routes_project.get("/get/id")
-def get_by_id(project_id: str):
-    return get_project(project_id)
+@routes_project.get("")
+def get_by_id(id: str):
+    return get_project(id)
 
 # GET ALL USERS
 
@@ -29,12 +29,12 @@ def get_all():
 
 
 @routes_project.delete("/delete")
-def create(project: Project):
+def delete(project: Project):
     return delete_project(project.dict())
 
 # UPDATE USER
 
 
 @routes_project.patch("/update")
-def create(project: Project):
+def update(project: Project):
     return update_project(project.dict())
