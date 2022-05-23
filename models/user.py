@@ -13,6 +13,6 @@ class Pos_score(BaseModel):
 
 class User(BaseModel):
     user_id: str =  Field(default_factory=generate_userID)
-    position_score: list
+    position_score: Optional[list]
     previous_project: Optional[set]
     tech_stack: Optional[set]
