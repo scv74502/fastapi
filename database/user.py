@@ -114,7 +114,7 @@ def get_user_proj(uid: str, num: int):
         if len(list(result.keys())) > num:
             return list(result.keys())[:num]
         else:
-            return list(user_jsim[uid].keys())
+            return list(result.keys())
 
 
 

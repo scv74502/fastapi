@@ -132,7 +132,7 @@ def get_proj_user(pid: str, num: int):
         if len(list(result.keys())) > num:
             return list(result.keys())[:num]
         else:
-            return list(result.keys())[:num]
+            return list(result.keys())
 
 
 
