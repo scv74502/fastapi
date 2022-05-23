@@ -20,8 +20,6 @@ def get_user(user_id: str):
         response = table.query(
             KeyConditionExpression=Key("user_id").eq(user_id)
         )
-        print(response)
-        print(response["Items"])
         return response["Items"]
     except ClientError as e:
         return JSONResponse(content=e.response["Error"], status_code=500)
@@ -40,7 +38,6 @@ def get_users(limit=5):
 
 def delete_user(user: dict):
     try:
-        print(user)
         response = table.delete_item(
             Key={
                 "user_id": user['user_id']

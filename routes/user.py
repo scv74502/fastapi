@@ -8,7 +8,7 @@ routes_user = APIRouter()
 # CREATE USER
 
 
-@routes_user.post("/create", response_model=User)
+@routes_user.put("/create", response_model=User)
 def create(user: User):
     return create_user(user.dict())
 
@@ -29,13 +29,13 @@ def get_all():
 # DELETE USER
 
 
-@routes_user.post("/delete")
+@routes_user.delete("/delete")
 def create(user: User):
     return delete_user(user.dict())
 
 # UPDATE USER
 
 
-@routes_user.post("/update")
+@routes_user.patch("/update")
 def create(user: User):
     return update_user(user.dict())

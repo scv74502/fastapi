@@ -37,7 +37,6 @@ def get_projects(limit=5):
 
 def delete_project(project: dict):
     try:
-        print(project)
         response = table.delete_item(
             Key={
                 "project_id": project["project_id"]
@@ -85,5 +84,4 @@ def update_project(project: dict):
         return response
 
     except ClientError as e:
-        print(e)
         return JSONResponse(content=e.response["Error"], status_code=500)
