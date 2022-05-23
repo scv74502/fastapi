@@ -1,13 +1,13 @@
 from fastapi import APIRouter
 from models.project import Project
-from database.project import create_project, get_project, get_projects, delete_project, update_project
+from database.project import create_project, get_project, get_projects, delete_project, update_project, update_projmem
 
 
 routes_project = APIRouter()
 
 
 # CREATE USER
-@routes_project.put("/create", response_model=Project)
+@routes_project.post("/create", response_model=Project)
 def create(project: Project):
     return create_project(project.dict())
 
@@ -33,3 +33,9 @@ def delete(project: Project):
 @routes_project.patch("/update")
 def update(project: Project):
     return update_project(project.dict())
+
+# UPDATE PROJECT MENBER
+@routes_project.patch("/update")
+def update_projmem(project: Project):
+    return update_project(project.dict())
+

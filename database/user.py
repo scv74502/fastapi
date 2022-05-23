@@ -20,6 +20,7 @@ def get_user(user_id: str):
         response = table.query(
             KeyConditionExpression=Key("user_id").eq(user_id)
         )
+        print(response["Items"][0]["previous_project"])
         return response["Items"]
     except ClientError as e:
         return JSONResponse(content=e.response["Error"], status_code=500)

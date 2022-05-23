@@ -1,3 +1,4 @@
+from .user import update_user
 from .db import dynamodb
 from botocore.exceptions import ClientError
 from fastapi.responses import JSONResponse
@@ -85,3 +86,10 @@ def update_project(project: dict):
 
     except ClientError as e:
         return JSONResponse(content=e.response["Error"], status_code=500)
+
+def update_projmem(project_id: str):
+    try:
+        return response
+    except ClientError as e:
+        return JSONResponse(content=e.response["Error"], status_code=500)
+
