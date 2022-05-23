@@ -7,9 +7,9 @@ routes_user = APIRouter()
 
 
 # CREATE USER
-# @routes_user.put("/create", response_model=User)
-# def create(user: User):
-    # return create_user(user.dict())
+@routes_user.put("/create", response_model=User)
+def create(user: User):
+    return create_user(user.dict())
 
 
 # GET USER BY ID
