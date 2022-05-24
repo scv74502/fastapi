@@ -127,6 +127,12 @@ def get_proj_user(pid: str, num: int):
         for proj in projects:
             proj_jsim[proj['project_id']] = {user['user_id']:jacard_sim(proj['tech_stack'], user['tech_stack']) for user in users if user['user_id'] not in proj['manager_id'] and user['user_id'] not in proj['member_id']}
             proj_jsim[proj['project_id']] = dict(sorted(proj_jsim[proj['project_id']].items(), key=lambda x:x[1], reverse=True))
+
+        # if project not in dict, return empty list
+        if pid not in proj_jsim:
+            return []
+
+
         result = list(proj_jsim[pid].items())
         result = dict([ele for ele in result if ele[1] != 0])
         if len(list(result.keys())) > num:
