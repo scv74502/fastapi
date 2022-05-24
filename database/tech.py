@@ -27,7 +27,7 @@ def get_user_tech():
 def get_proj_tech():
         try:
             response = proj_table.scan(
-                AttributesToGet=["project_id", "tech_stack"]
+                AttributesToGet=["project_id", "member_id", "manager_id", "tech_stack"]
             )
             response['Items'].sort(key=lambda x:int(x["project_id"]))
             projects = response['Items']

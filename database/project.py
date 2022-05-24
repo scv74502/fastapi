@@ -112,7 +112,7 @@ def get_proj_user(pid: str, num: int):
         global users, projects
 
         response = table.scan(
-            AttributesToGet=["project_id", "tech_stack"]
+            AttributesToGet=["project_id", "tech_stack", "member_id", "manager_id"]
         )
         response['Items'].sort(key=lambda x:int(x["project_id"]))
 
@@ -125,7 +125,7 @@ def get_proj_user(pid: str, num: int):
 
         proj_jsim = dict()
         for proj in projects:
-            proj_jsim[proj['project_id']] = {user['user_id']:jacard_sim(proj['tech_stack'], user['tech_stack']) for user in users}
+            proj_jsim[proj['project_id']] = {user['user_id']:jacard_sim(proj['tech_stack'], user['tech_stack']) for user in users if user['user_id'] not in proj['manager_id'] and user['user_id'] not in proj['member_id']}
             proj_jsim[proj['project_id']] = dict(sorted(proj_jsim[proj['project_id']].items(), key=lambda x:x[1], reverse=True))
         result = list(proj_jsim[pid].items())
         result = dict([ele for ele in result if ele[1] != 0])
