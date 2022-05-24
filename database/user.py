@@ -22,7 +22,6 @@ def get_user(user_id: str):
         response = table.query(
             KeyConditionExpression=Key("user_id").eq(user_id)
         )
-        print(response)
         return response["Items"]
     except ClientError as e:
         return JSONResponse(content=e.response["Error"], status_code=500)
@@ -103,14 +102,12 @@ def get_user_proj(uid: str, num: int):
 
         users = [user for user in users if "tech_stack" in user]
         projects = [project for project in projects if "tech_stack" in project and uid != project["manager_id"] and uid not in project["member_id"]]
-        print(projects)
 
         user_jsim = dict()
         for user in users:
             user_jsim[user['user_id']] = {proj['project_id']:jacard_sim(user['tech_stack'], proj['tech_stack']) for proj in projects}
             user_jsim[user['user_id']] = dict(sorted(user_jsim[user['user_id']].items(), key=lambda x:x[1], reverse=True))
 
-        print(user_jsim)
 
         if uid not in user_jsim:
             return []
