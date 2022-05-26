@@ -1,0 +1,14 @@
+*.env
+
+/__pycache__
+
+/routes/__pycache__
+
+/database/__pycache__
+
+/models/__pycache__
+
+/capstone-2022-17
+
+
+
