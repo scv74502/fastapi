@@ -105,7 +105,7 @@ def get_user_proj(uid: str, num: int):
 
         user_jsim = dict()
         for user in users:
-            user_jsim[user['user_id']] = {proj['project_id']:jacard_sim(user['tech_stack'], proj['tech_stack']) for proj in projects}
+            user_jsim[user['user_id']] = {proj['project_id']:cosine_sim(user['tech_stack'], proj['tech_stack']) for proj in projects}
             user_jsim[user['user_id']] = dict(sorted(user_jsim[user['user_id']].items(), key=lambda x:x[1], reverse=True))
 
         # if project not in dict, return empty list
